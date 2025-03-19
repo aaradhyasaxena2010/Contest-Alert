@@ -317,54 +317,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     }
 });
-
-// // Cron job to run every minute and send reminder emails 20 minutes before contest start
-// cron.schedule('* * * * *', async () => {
-//     try {
-//         const now = Math.floor(Date.now() / 1000);
-//         const reminderTime = now + 20 * 60; // Exactly 20 minutes from now
-
-//         // Find contests starting exactly 20 minutes from now
-//         const upcomingContests = await Contest.find({
-//             startTime: { $gte: reminderTime - 60, $lte: reminderTime + 60 } // Allowing a ±30 sec buffer
-//         });
-
-//         for (let contest of upcomingContests) {
-//             let users = [];
-
-//             if (contest.platform === 'LeetCode') {
-//                 users = await User.find({ 'reminderPreferences.leetcode': true });
-//             } else if (contest.platform === 'Codeforces') {
-//                 users = await User.find({
-//                     $or: [
-//                         { 'reminderPreferences.codeforces.div1': true },
-//                         { 'reminderPreferences.codeforces.div3': true },
-//                         { 'reminderPreferences.codeforces.div4': true }
-//                     ]
-//                 });
-//             }
-//             // Add more platforms as needed
-
-//             for (let user of users) {
-//                 const mailOptions = {
-//                     from: process.env.EMAIL_USER,
-//                     to: user.email,
-//                     subject: `Reminder: ${contest.name} is starting soon!`,
-//                     text: `Hi ${user.name},\n\nReminder: ${contest.name} starts at ${new Date(contest.startTime * 1000).toLocaleString()}.\n\nGood luck!\n\nBest,\nContest Alert Team`
-//                 };
-
-//                 try {
-//                     await transporter.sendMail(mailOptions);
-//                     console.log(`Reminder email sent to ${user.email}`);
-//                 } catch (error) {
-//                     console.error(`Failed to send email to ${user.email}:`, error);
-//                 }
-//             }
-//         }
-//     } catch (error) {
-//         console.error('Error in cron job:', error);
-//     }
-// });
 // Cron job to run every minute and send reminder emails 20 minutes before contest start
 cron.schedule('* * * * *', async () => {
     try {
@@ -477,6 +429,7 @@ app.get('/test-email-all', async (req, res) => {
          Start Server
 ------------------------------*/
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`);
+// });
+module.exports = app
