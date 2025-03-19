@@ -275,6 +275,10 @@ function computeUpcomingLeetCodeContests() {
     return upcoming.slice(0, 3);
 }
 
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "Hello from Server..." })
+})
+
 // Update contests endpoint: Merges Codeforces and computed LeetCode contests
 app.post('/api/updateContests', async (req, res) => {
     console.log("POST /api/updateContests hit");
