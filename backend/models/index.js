@@ -1,22 +1,15 @@
-const { Sequelize } = require('sequelize');
-require('dotenv').config(); // loads .env
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('contest_alert', 'root', 'Dinku2010$', {
+  host: 'localhost',
+  dialect: 'mysql',
+});
 
-// create sequelize instance with environment variables
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-    logging: false, // turn off SQL logging
-  }
-);
+const db = {};
 
-// test connection
-sequelize
-  .authenticate()
-  .then(() => console.log('✅ Connected to MySQL database!'))
-  .catch((err) => console.error('❌ Unable to connect to DB:', err));
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
 
-module.exports = { sequelize };
+// Import your models here
+db.User = require('./User')(sequelize, Sequelize.DataTypes);  // 👈 this must match!
+
+module.exports = db;
